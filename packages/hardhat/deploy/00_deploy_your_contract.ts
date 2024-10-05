@@ -22,7 +22,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
-  await deploy("store", {
+  await deploy("StoreFraction", {
     from: deployer,
     // Contract constructor arguments
     args: [],
@@ -33,7 +33,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   });
 
   // Get the deployed contract to interact with it after deploying.
-  const storeContract = await hre.ethers.getContract<Contract>("store", deployer);
+  const storeContract = await hre.ethers.getContract<Contract>("StoreFraction", deployer);
   console.log("Contract Address: ", storeContract.address);
 };
 
@@ -41,4 +41,4 @@ export default deployYourContract;
 
 // Tags are useful if you have multiple deploy files and only want to run one of them.
 // e.g. yarn deploy --tags YourContract
-// deployYourContract.tags = ["YourContract"];
+deployYourContract.tags = ["StoreFraction"];

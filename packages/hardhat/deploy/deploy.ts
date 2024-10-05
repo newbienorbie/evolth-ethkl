@@ -3,48 +3,38 @@ import { DeployFunction } from "hardhat-deploy/types";
 import { Contract } from "ethers";
 
 /**
- * Deploys a contract named "YourContract" using the deployer account and
- * constructor arguments set to the deployer address
+ * Deploys a contract named "StoreFraction" using the deployer account
  *
  * @param hre HardhatRuntimeEnvironment object.
  */
-
 const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
-  /*
-    On localhost, the deployer account is the one that comes with Hardhat, which is already funded.
+  const { deployer } = await hre.getNamedAccounts(); // Get deployer account
+  const { deploy, log } = hre.deployments; // Deploy contract and log output
 
-    When deploying to live networks (e.g `yarn deploy --network sepolia`), the deployer account
-    should have sufficient balance to pay for the gas fees for contract creation.
-
-    You can generate a random account with `yarn generate` which will fill DEPLOYER_PRIVATE_KEY
-    with a random private key in the .env file (then used on hardhat.config.ts)
-    You can run the `yarn account` command to check your balance in every network.
-  */
-  const { deployer } = await hre.getNamedAccounts();
-  const { deploy } = hre.deployments;
-
-  await deploy("EasyContract", {
+  // Deploy the "StoreFraction" contract
+  await deploy("StoreFraction", {
     from: deployer,
-    // Contract constructor arguments
-    args: [deployer],
+    args: [], // Pass constructor arguments if needed (none in this case)
     log: true,
-    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
-    // automatically mining the contract deployment transaction. There is no effect on live networks.
-    autoMine: true,
+    autoMine: true, // Automatically mine on local networks
   });
 
-  // Get the deployed contract to interact with it after deploying.
-  const EasyContract = await hre.ethers.getContract<Contract>("EasyContract", deployer);
-  console.log("👋 Initial greeting:", await EasyContract.greeting());
+  // Get the deployed contract instance to interact with it
+  const storeFractionContract: Contract = await hre.ethers.getContract("StoreFraction", deployer);
 
-    // Deploy the contract
-    // const contract = await deploy("EasyContract", {
-    //   from: deployer,
-    //   log: true,
-    // });
-    console.log("Contract deployed to:", contractDeployment.address);
-}
+  log("✅ Contract deployed at:", storeFractionContract.address);
+
+  // If the contract hasa any functions to interact with, add them here.
+  // For example, to call any function (e.g., getStoreDetails if such a function exists):
+  try {
+    // Example interaction - adjust according to your contract's actual functions
+    const details = await storeFractionContract.getStoreDetails(1);
+    log("🏪 Store 1 details:", details);
+  } catch (error) {
+    log("⚠️ No getStoreDetails function found in StoreFraction.");
+  }
+};
 
 export default deployYourContract;
 
-deployYourContract.tags = ["EasyContract"];
+deployYourContract.tags = ["StoreFraction"];

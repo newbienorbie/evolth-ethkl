@@ -1,0 +1,25 @@
+button {
+  border-radius: 50px;
+  height: fit-content;
+  width: fit-content;
+  padding: 10px 40px;
+  color: var(--dark);
+  border: 2px solid var(--dark);
+  background: var(--green);
+  box-shadow: 0 4px 0 0 var(--yellow);
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+button:hover {
+  box-shadow: none;
+  opacity: 0.8;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}

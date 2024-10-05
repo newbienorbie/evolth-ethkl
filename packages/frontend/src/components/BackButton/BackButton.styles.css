@@ -1,0 +1,12 @@
+.back-button {
+  margin: 20px;
+  border-radius: 50px;
+  background: var(--green);
+  cursor: pointer;
+  text-align: center;
+  padding: 10px 20px;
+}
+
+.back-icon {
+  margin-right: 10px;
+}

@@ -1,0 +1,21 @@
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #111;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-page {
+  display: flex;
+  height: 100vh;
+}
+
+.profile-content {
+  flex-grow: 1;
+  padding: 30px;
+  padding-left: 70px;
+  background-color: #000;
+  color: #fff;
+}

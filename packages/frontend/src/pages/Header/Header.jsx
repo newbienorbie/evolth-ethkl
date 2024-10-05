@@ -27,12 +27,6 @@ export default function Header() {
               <a href='#about'>About Us</a>
             </li>
             <li>
-              <a href='#buy'>Buy</a>
-            </li>
-            <li>
-              <a href='#sell'>Sell</a>
-            </li>
-            <li>
               <a href='#contact'>Contact Us</a>
             </li>
             <li>
@@ -50,7 +44,6 @@ export default function Header() {
             <span></span>
             <span></span>
           </div>
-          <Button className='sign-in'>Sign In</Button>
         </div>
       </header>
     </>

@@ -1,4 +1,5 @@
 import React from "react";
+import { ethers } from "ethers";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Main from "./pages/Main/Main";
 import Profile from "./pages/Profile/Profile";

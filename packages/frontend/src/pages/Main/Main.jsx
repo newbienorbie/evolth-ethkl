@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Header from "../Header/Header";
 import Button from "../../components/Button/Button";
 import "./Main.styles.css";
@@ -67,12 +68,12 @@ const Main = () => {
           </p>
           {isConnected ? (
             <div className='buttons'>
-              <Button onClick={() => alert(`Viewing profile of ${account}`)}>
-                View Profile
-              </Button>
-              <Button onClick={() => alert("Exploring franchise")}>
-                Explore Franchise
-              </Button>
+              <Link to='/profile'>
+                <Button>View Profile</Button>
+              </Link>
+              <Link to='/franchise'>
+                <Button>Explore Franchise</Button>
+              </Link>
             </div>
           ) : (
             <Button

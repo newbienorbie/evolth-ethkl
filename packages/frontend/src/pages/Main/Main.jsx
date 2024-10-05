@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { ethers } from "ethers";
 import { Link } from "react-router-dom";
 import Header from "../Header/Header";
 import Button from "../../components/Button/Button";
@@ -6,47 +7,68 @@ import "./Main.styles.css";
 
 const Main = () => {
   const [isConnected, setIsConnected] = useState(false);
-  const [account, setAccount] = useState(""); // Initially empty account
+  const [account, setAccount] = useState("");
+
   const [showPopup, setShowPopup] = useState(false);
 
-  // Function to simulate wallet connection
-  const connectWallet = () => {
-    const mockAccount = "0x7585B9A8Eb2c7d778A1bC110AEA166262e803788";
-    setAccount(mockAccount);
-    setIsConnected(true);
-    setShowPopup(true); // Show popup when connected
-    localStorage.setItem("isConnected", "true");
-    localStorage.setItem("account", mockAccount);
+  const connectWallet = async () => {
+    if (typeof window.ethereum !== "undefined") {
+      try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
 
-    // Hide the popup after 3 seconds
-    setTimeout(() => setShowPopup(false), 3000);
+        const signer = provider.getSigner();
+        const account = await signer.getAddress();
+
+        setAccount(account);
+        setIsConnected(true);
+        setShowPopup(true);
+        localStorage.setItem("isConnected", "true");
+        localStorage.setItem("account", account);
+
+        setTimeout(() => setShowPopup(false), 3000);
+      } catch (error) {
+        console.error("Error connecting to wallet:", error);
+      }
+    } else {
+      alert(
+        "MetaMask is not installed. Please install it to use this feature."
+      );
+    }
   };
 
-  // New function to disconnect wallet
   const disconnectWallet = () => {
-    setIsConnected(false); // Set isConnected to false
-    setAccount(""); // Clear the account address
-    localStorage.removeItem("isConnected"); // Remove from localStorage
-    localStorage.removeItem("account"); // Remove account from localStorage
-    setShowPopup(true); // Show popup when disconnected
+    setIsConnected(false);
+    setAccount("");
+    localStorage.removeItem("isConnected");
+    localStorage.removeItem("account");
 
-    // Hide the popup after 3 seconds
+    setShowPopup(true);
     setTimeout(() => setShowPopup(false), 3000);
   };
 
   useEffect(() => {
-    // Check if user is already connected when component mounts
     const storedConnection = localStorage.getItem("isConnected");
     const storedAccount = localStorage.getItem("account");
+
     if (storedConnection === "true" && storedAccount) {
       setIsConnected(true);
       setAccount(storedAccount);
+    } else if (window.ethereum) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      provider.listAccounts().then((accounts) => {
+        if (accounts.length > 0) {
+          setAccount(accounts[0]);
+          setIsConnected(true);
+          localStorage.setItem("isConnected", "true");
+          localStorage.setItem("account", accounts[0]);
+        }
+      });
     }
   }, []);
 
   return (
     <div>
-      {/* Pass props to Header */}
       <Header
         isConnected={isConnected}
         account={account}
@@ -91,7 +113,6 @@ const Main = () => {
                   ? `Connected as: ${account}`
                   : "Wallet Disconnected"}
               </p>{" "}
-              {/* <-- Show different messages */}
             </div>
           )}
         </div>

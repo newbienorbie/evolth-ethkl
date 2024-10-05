@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import Button from "../../components/Button/Button.jsx";
 import "./Header.styles.css";
 
-export default function Header() {
-  // hamburger
+export default function Header({ isConnected, disconnectWallet }) {
   const [isOpen, setIsOpen] = useState(false);
+
+  // Toggle mobile menu
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -36,6 +37,19 @@ export default function Header() {
         </nav>
 
         <div className='right-menu'>
+          {isConnected ? (
+            <div className='wallet-info'>
+              <Button
+                className='disconnect-button'
+                onClick={disconnectWallet}
+              >
+                Disconnect
+              </Button>
+            </div>
+          ) : (
+            <span className='not-connected'>Not Connected</span>
+          )}
+
           <div
             className='hamburger'
             onClick={toggleMenu}

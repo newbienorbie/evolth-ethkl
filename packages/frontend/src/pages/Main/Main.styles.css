@@ -21,7 +21,7 @@
   color: var(--green);
 }
 
-.text-content p {
+.text-content .desc {
   font-size: 1.2rem;
   margin-top: 20px;
   color: var(--light-grey);
@@ -32,6 +32,35 @@
   flex-direction: column;
   margin-top: 2rem;
   gap: 1.5rem;
+}
+
+.popup {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #222;
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @media (max-width: 992px) {

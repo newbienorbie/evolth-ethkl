@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.17;
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -14,7 +14,7 @@ contract StoreFraction is ERC1155, Ownable {
     mapping(uint256 => Store) public stores; // Mapping from store ID to Store struct
     uint256 public storeCount; // Keeps track of the number of stores
 
-    constructor() ERC1155("https://api.example.com/metadata/{id}.json") {
+    constructor() ERC1155("") Ownable(msg.sender) {
         // Predefine the stores with fractions, initially owned by the app owner
         _addStore("Store A", 100, 1 ether); // 100 fractions, 1 ETH each
         _addStore("Store B", 200, 0.5 ether); // 200 fractions, 0.5 ETH each

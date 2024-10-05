@@ -6,7 +6,11 @@ import { GrFormNextLink } from "react-icons/gr";
 import "./FranchiseList.styles.css";
 
 const StoreList = () => {
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0); // No type annotations
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [selectedStore, setSelectedStore] = useState(null);
+  const [tokenAmount, setTokenAmount] = useState(""); // No number type annotation
+
   const storesPerPage = 6;
 
   const startIndex = currentPage * storesPerPage;
@@ -22,6 +26,32 @@ const StoreList = () => {
   const handlePrevious = () => {
     if (startIndex > 0) {
       setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const handleBuyClick = (storeName) => {
+    setSelectedStore(storeName);
+    setIsPopupVisible(true);
+  };
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) {
+      // Allows only numbers
+      setTokenAmount(value); // Storing the input as a string
+    }
+  };
+
+  const handleConfirmPurchase = () => {
+    if (tokenAmount && selectedStore) {
+      alert(
+        `You have successfully bought ${tokenAmount} tokens for ${selectedStore}`
+      );
+      setIsPopupVisible(false);
+      setTokenAmount("");
+      setSelectedStore(null);
+    } else {
+      alert("Please enter a valid token amount.");
     }
   };
 
@@ -41,7 +71,12 @@ const StoreList = () => {
             <h3>{store.name}</h3>
             <p>Location: {store.location}</p>
             <p>Industry: {store.storeType}</p>
-            <Button className='view-details-button'>Details</Button>
+            <Button
+              className='view-details-button'
+              onClick={() => handleBuyClick(store.name)}
+            >
+              Buy
+            </Button>
           </div>
         ))}
       </div>
@@ -67,6 +102,36 @@ const StoreList = () => {
           </span>
         </Button>
       </div>
+
+      {/* Popup for token input */}
+      {isPopupVisible && (
+        <div className='popup-overlay'>
+          <div className='popup'>
+            <h2>How many tokens do you want to buy?</h2>
+            <input
+              type='text'
+              value={tokenAmount}
+              onChange={handleInputChange}
+              placeholder='Enter number of tokens'
+              className='token-input'
+            />
+            <div className='popup-buttons'>
+              <Button
+                className='confirm'
+                onClick={handleConfirmPurchase}
+              >
+                Confirm
+              </Button>
+              <Button
+                className='cancel'
+                onClick={() => setIsPopupVisible(false)}
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
